@@ -1,0 +1,24 @@
+{
+	"data": [
+		{
+			"id": 1,
+			"blogCategory": "Technology",
+			"blogTitle": "Nodejs là gì",
+			"slug": "what-is-nodejs",
+			"postedOn": "Dec 02, 2020",
+			"author": "Vu dang",
+			"blogImage": "nodejs.png",
+			"blogText": "NodeJS là gì?\n\nNodeJS là một nền tảng được xây dựng trên V8 JavaScript Engine – trình thông dịch thực thi mã JavaScript, giúp xây dựng các ứng dụng web một cách đơn giản và dễ dàng mở rộng.\n\nNodeJS được phát triển bởi Ryan Dahl vào năm 2009 và có thể chạy trên nhiều hệ điều hành khác nhau: OS X, Microsoft Windows, Linux.\n Lý do nên học NodeJS là gì?\n\n NodeJS được viết bằng JavaScript với cộng đồng người dùng lớn mạnh. Nếu bạn cần hỗ trợ gì về NodeJS, sẽ nhanh chóng có người hỗ trợ bạn.\n\nTốc độ xử lý nhanh. Nhờ cơ chế xử lý bất đồng độ (non-blocking), NodeJS có thể xử lý hàng ngàn kết nối cùng lúc mà không gặp bất cứ khó khăn nào.\n\nDễ dàng mở rộng. Nếu bạn có nhu cầu phát triển website thì tính năng dễ dàng mở rộng của NodeJS là một lợi thế cực kỳ quan trọng."
+		},
+		{
+			"id": 2,
+			"blogCategory": "Technology",
+			"blogTitle": "Javascript là gì?",
+			"slug": "What-is-js?",
+			"postedOn": "Dec 02, 2020",
+			"author": "Vu dang",
+			"blogImage": "javascript-5.png",
+			"blogText": "JavaScript là ngôn ngữ lập trình phổ biến nhất trên thế giới trong suốt 20 năm qua. Nó cũng là một trong số 3 ngôn ngữ chính của lập trình web:\nHTML: Giúp bạn thêm nội dung cho trang web.\nCSS: Định dạng thiết kế, bố cục, phong cách, canh lề của trang web.\nJavaScript: Cải thiện cách hoạt động của trang web.\n"
+		}
+	]
+}
