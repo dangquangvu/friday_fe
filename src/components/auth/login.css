@@ -1,0 +1,20 @@
+.Login {
+    margin: 0 auto;
+    margin-top: 70px;
+    max-width: 400px;
+    padding: 40px 40px;
+    background: rgb(172, 235, 235)
+}
+
+.background {
+    color: red !important;
+    font-size: 14px;
+}
+
+.mar_bot {
+    margin-bottom:  10px  !important;
+}
+
+.mar_left {
+    margin-bottom: 0px 10px 10px 0px !important;
+}
