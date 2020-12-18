@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { Alert, FormGroup, Button, Form } from 'react-bootstrap';
 import './index.css';
-import { isEmail, isEmpty, isLength, isContainWhiteSpace } from '../auth/validator';
+import { isEmpty, isContainWhiteSpace } from '../auth/validator';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { authenticationService } from '../../_services';
 import { history } from '../../_helpers';
+import Card from '../UI/Card';
+import { userService } from '../../_services/user.service';
 class CreateBlog extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			formData: {}, // Contains login form data
+			formDataBlog: {}, // Contains login form data
 			errors: {}, // Contains login field errors
 			formSubmitted: false, // Indicates submit status of login form
 			loading: false, // Indicates in progress state of login form
@@ -22,31 +24,37 @@ class CreateBlog extends Component {
 		const target = event.target;
 		const value = target.value;
 		const name = target.name;
-		let { formData } = this.state;
-		formData[name] = value;
+		let { formDataBlog } = this.state;
+		formDataBlog[name] = value;
+		console.log(formDataBlog);
 		this.setState({
-			formData: formData,
+			formDataBlog: formDataBlog,
 		});
 	};
 
 	validateLoginForm = (e) => {
 		let errors = {};
-		const { formData } = this.state;
+		const { formDataBlog } = this.state;
 
-		if (isEmpty(formData.email)) {
-			errors.email = "Email can't be blank";
-		} else if (!isEmail(formData.email)) {
-			errors.email = 'Please enter a valid email';
+		if (isEmpty(formDataBlog.title)) {
+			errors.title = "Title can't be blank";
 		}
 
-		if (isEmpty(formData.password)) {
-			errors.password = "Password can't be blank";
-		} else if (isContainWhiteSpace(formData.password)) {
-			errors.password = 'Password should not contain white spaces';
-		} else if (!isLength(formData.password, { gte: 5, lte: 16, trim: true })) {
-			errors.password = "Password's length must between 6 to 16";
+		if (isEmpty(formDataBlog.slug)) {
+			errors.slug = "Slug can't be blank";
+		} else if (isContainWhiteSpace(formDataBlog.slug)) {
+			errors.slug = 'slug should not contain white spaces';
+		}
+		if (isEmpty(formDataBlog.image)) {
+			errors.image = "Image field can't be blank";
+		} else if (isContainWhiteSpace(formDataBlog.image)) {
+			errors.image = 'image should not contain white spaces';
+		}
+		if (isEmpty(formDataBlog.content)) {
+			errors.content = "Content can't be blank";
 		}
 
+		console.log(errors);
 		if (isEmpty(errors)) {
 			return true;
 		} else {
@@ -54,28 +62,21 @@ class CreateBlog extends Component {
 		}
 	};
 
-	login = (e) => {
+	createBlog = async (e) => {
 		e.preventDefault();
 
 		let errors = this.validateLoginForm();
 
 		if (errors === true) {
-			let { formData } = this.state;
-			console.log(formData);
-			authenticationService
-				.login(formData.email, formData.password)
-				.then(() => {
-					this.setState({
-						loginFalse: false,
-					});
-					history.push('/');
-					window.location.reload();
+			let { formDataBlog } = this.state;
+			console.log(formDataBlog);
+			await userService
+				.postBlog(formDataBlog.title, formDataBlog.image, formDataBlog.slug, formDataBlog.content)
+				.then((data) => {
+					console.log(data);
 				})
 				.catch((err) => {
 					console.log(err);
-					this.setState({
-						loginFalse: true,
-					});
 				});
 		} else {
 			this.setState({
@@ -90,60 +91,90 @@ class CreateBlog extends Component {
 		const { errors, formSubmitted, loginFalse } = this.state;
 
 		return (
-			<div className="Login">
-				<h1>Login</h1>
-				{/* <Row> */}
-				<Form onSubmit={this.login}>
+			<Card className="mr_top color">
+				<Form onSubmit={this.createBlog} className="form">
 					<FormGroup
-						controlId="email"
-						validationState={formSubmitted ? (errors.email ? 'error' : 'success') : null}
+						controlId="title"
+						validationState={formSubmitted ? (errors.title ? 'error' : 'success') : null}
 					>
-						<Form.Label>Email</Form.Label>
+						<Form.Label>Title</Form.Label>
 						<Form.Control
 							type="text"
-							name="email"
-							placeholder="Enter your email"
+							name="title"
+							placeholder="Blog title"
 							onChange={this.handleInputChange}
-							aria-describedby="emailHelpBlock"
+							aria-describedby="titleHelpBlock"
 						/>
-						{errors.email && (
-							<Form.Text className="background" id="emailHelpBlock">
-								{errors.email}
+						{errors.title && (
+							<Form.Text className="background" id="titleHelpBlock">
+								{errors.title}
 							</Form.Text>
 						)}
 					</FormGroup>
 					<FormGroup
-						controlId="password"
-						validationState={formSubmitted ? (errors.password ? 'error' : 'success') : null}
+						controlId="slug"
+						validationState={formSubmitted ? (errors.slug ? 'error' : 'success') : null}
 					>
-						<Form.Label>Password</Form.Label>
+						<Form.Label>Slug</Form.Label>
 						<Form.Control
-							type="password"
-							name="password"
-							placeholder="Enter your password"
+							type="text"
+							name="slug"
+							placeholder="Blog slug"
 							onChange={this.handleInputChange}
-							aria-describedby="passHelpBlock"
+							aria-describedby="slugHelpBlock"
 						/>
-						{errors.password && (
-							<Form.Text className="background" id="emailHelpBlock">
-								{errors.password}
+						{errors.slug && (
+							<Form.Text className="background" id="slugHelpBlock">
+								{errors.slug}
 							</Form.Text>
 						)}
 					</FormGroup>
+					<FormGroup
+						controlId="image"
+						validationState={formSubmitted ? (errors.image ? 'error' : 'success') : null}
+					>
+						<Form.Label>Image</Form.Label>
+						<Form.Control
+							type="text"
+							name="image"
+							placeholder="Blog image"
+							onChange={this.handleInputChange}
+							aria-describedby="imageHelpBlock"
+						/>
+						{errors.image && (
+							<Form.Text className="background" id="imageHelpBlock">
+								{errors.image}
+							</Form.Text>
+						)}
+					</FormGroup>
+					<Form.Group
+						controlId="content"
+						validationState={formSubmitted ? (errors.content ? 'error' : 'success') : null}
+					>
+						<Form.Label>Content</Form.Label>
+						<Form.Control
+							as="textarea"
+							name="content"
+							onChange={this.handleInputChange}
+							rows={3}
+							aria-describedby="contentHelpBlock"
+						/>
+						{errors.content && (
+							<Form.Text className="background" id="contentHelpBlock">
+								{errors.content}
+							</Form.Text>
+						)}
+					</Form.Group>
 					<Button type="submit" bsStyle="primary" className="mar_bot">
-						Sign-In
+						Create
 					</Button>
-					{/* <Button bsStyle="primary" className="mar_left">
-						register
-					</Button> */}
 					{loginFalse && (
 						<Alert key="loginfalse" variant="danger">
-							login false!
+							Create blog false!
 						</Alert>
 					)}
 				</Form>
-				{/* </Row> */}
-			</div>
+			</Card>
 		);
 	}
 }

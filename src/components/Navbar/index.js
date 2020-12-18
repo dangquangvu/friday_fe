@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { authenticationService } from '../../_services';
 import { history } from '../../_helpers';
+import { userService } from '../../_services/user.service';
 /**
  * @author
  * @function Navbar
@@ -15,6 +16,8 @@ const Navbar = (props) => {
 	const [search, setSearch] = useState(false);
 	const [access, setAccess] = useState(false);
 	const store = authenticationService.currentUserValue;
+	console.log(store);
+	const [me, setMe] = useState({});
 	useEffect(() => {
 		if (store) {
 			setAccess(true);
@@ -31,6 +34,10 @@ const Navbar = (props) => {
 	const logout = () => {
 		authenticationService.logout();
 		history.push('/');
+		window.location.reload();
+	};
+	const redirectLogin = () => {
+		history.push('/login');
 		window.location.reload();
 	};
 	const searchClass = search ? 'searchInput active' : 'searchInput';
@@ -63,7 +70,7 @@ const Navbar = (props) => {
 						{/* <LoginPage /> */}
 						{access ? (
 							<Dropdown>
-								<Dropdown.Toggle variant="success" id="dropdown-basic">
+								<Dropdown.Toggle variant="outline-info" id="dropdown-basic">
 									<FontAwesomeIcon icon={faUserCircle} />
 								</Dropdown.Toggle>
 
@@ -72,8 +79,8 @@ const Navbar = (props) => {
 								</Dropdown.Menu>
 							</Dropdown>
 						) : (
-							<Button variant="outline-info">
-								<NavLink to="/login">Create Blog</NavLink>
+							<Button variant="outline-info" onClick={redirectLogin}>
+								login
 							</Button>
 						)}
 					</li>

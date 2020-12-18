@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './style.css';
 import Card from '../UI/Card';
 import blogPost from '../../data/blog.json';
-
+import { userService } from '../../_services/user.service';
 /**
  * @author
  * @function BlogPost
@@ -13,7 +13,7 @@ const BlogPost = (props) => {
 		id: '',
 		blogCategory: '',
 		blogTitle: '',
-		postedOn: '',
+		createdAt: '',
 		author: '',
 		blogImage: '',
 		blogText: '',
@@ -21,9 +21,14 @@ const BlogPost = (props) => {
 	const [slug, setSlug] = useState('');
 
 	useEffect(() => {
-		const slug = props.match.params.slug;
-		const post = blogPost.data.find((post) => post.slug === slug);
-		setPost(post);
+		const slug = props.match.params.id;
+		console.log(slug);
+		userService.blogDetails(slug).then((data) => {
+			data.map((item) => {
+				setPost(item);
+			});
+		});
+
 		setSlug(slug);
 	}, [post, props.match.params.slug]);
 

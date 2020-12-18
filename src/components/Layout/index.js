@@ -14,9 +14,6 @@ const Layout = (props) => {
 				{props.children}
 				<Sidebar />
 			</div>
-			<div>
-				<h3>blog made by me</h3>
-			</div>
 		</React.Fragment>
 	);
 };

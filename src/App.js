@@ -6,18 +6,19 @@ import Home from './containers/Home';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Post from './containers/Post';
 import Login from './components/auth/login';
-import CreateBlog from './components/Blog/createBlog';
+import CreatePage from './components/Blog/createPage';
+import PrivateRoute from '../src/components/auth/privateRouter';
 function App() {
 	return (
 		<Router>
 			<div className="App">
 				<Route path="/" exact component={Home} />
-				<Route path="/post/:slug" component={Post} />
+				<Route path="/post/:id" component={Post} />
+				<PrivateRoute path="/create" Component={CreatePage} />
 				<Route path="/login" component={Login} />
-				<Route path="/create" component={CreateBlog} />
 			</div>
 		</Router>
 	);
 }
-
+//history={history}
 export default App;
